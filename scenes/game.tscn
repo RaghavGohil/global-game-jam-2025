@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://luipmdfkdgq8"]
+[gd_scene load_steps=11 format=3 uid="uid://luipmdfkdgq8"]
 
 [ext_resource type="Texture2D" uid="uid://cqu0bnfpj24qr" path="res://sprites/tilemaps/tilemap.png" id="1_x2fx8"]
 [ext_resource type="Texture2D" uid="uid://bl01yys0l5346" path="res://sprites/tilemaps/player_1.png" id="2_ccm4g"]
@@ -36,6 +36,10 @@ physics_layer_0/collision_layer = 1
 physics_layer_1/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_r7nwh")
 
+[sub_resource type="Curve" id="Curve_dgryc"]
+_data = [Vector2(0, 0.696498), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="GDScript" id="GDScript_beeb3"]
 script/source = "extends CharacterBody2D
 
@@ -72,9 +76,13 @@ height = 6.0
 background_mode = 3
 background_color = Color(0.671094, 0.653352, 0.657808, 1)
 glow_enabled = true
+glow_intensity = 0.2
 glow_strength = 0.85
 glow_bloom = 0.2
 glow_blend_mode = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_yxfo7"]
+font_size = 6
 
 [node name="Node2D" type="Node2D"]
 
@@ -82,21 +90,19 @@ glow_blend_mode = 1
 texture_filter = 1
 tile_set = SubResource("TileSet_leepm")
 format = 2
-layer_0/tile_data = PackedInt32Array(1, 196608, 3, 2, 131072, 3, 3, 131072, 3, 4, 131072, 3, 5, 131072, 3, 6, 393216, 3, -65530, 393216, 2, -65529, 131072, 3, -65528, 131072, 3, -65527, 131072, 3, -131070, 458752, 2, -131073, 458752, 2, -262140, 458752, 2, -262135, 589824, 1, -131067, 524288, 2, -65526, 393216, 3, -131062, 393216, 2, -196597, 0, 805306370, -131061, 393216, 3, -65533, 131072, 2, 65536, 131072, 3, 131071, 131072, 3, 131070, 131072, 3, 131069, 131072, 3)
+layer_0/tile_data = PackedInt32Array(1, 196608, 3, 2, 131072, 3, 3, 131072, 3, 4, 131072, 3, 5, 131072, 3, 6, 393216, 3, -65530, 393216, 2, -65529, 131072, 3, -65528, 131072, 3, -65527, 131072, 3, -131070, 458752, 2, -131073, 458752, 2, -262140, 458752, 2, -262135, 589824, 1, -131067, 524288, 2, -65526, 393216, 3, -131062, 393216, 2, -196597, 0, 805306370, -131061, 393216, 3, -65533, 131072, 2, 65536, 131072, 3, 131071, 131072, 3, 131070, 131072, 3, 131069, 131072, 3, -65531, 196608, 2, -131066, 196608, 2, -131065, 196608, 2, -131064, 196608, 2, -131063, 196608, 2)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="TileMap"]
+position = Vector2(90, -20)
+emission_shape = 3
+emission_rect_extents = Vector2(1, 4.95)
+gravity = Vector2(0, 0)
+initial_velocity_max = 35.47
+scale_amount_curve = SubResource("Curve_dgryc")
+color = Color(0.0313726, 0.67451, 0.996078, 1)
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = SubResource("GDScript_beeb3")
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Player/Camera2D"]
-lifetime = 2.0
-randomness = 1.0
-draw_order = 1
-emission_shape = 3
-emission_rect_extents = Vector2(80, 45)
-gravity = Vector2(0, 100)
-color = Color(0.176964, 0.132751, 0.132747, 1)
 
 [node name="Gun" type="Sprite2D" parent="Player"]
 texture_filter = 1
@@ -110,5 +116,29 @@ texture = ExtResource("2_ccm4g")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_w3n0b")
 
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position_smoothing_enabled = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Player/Camera2D"]
+lifetime = 2.0
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(80, 45)
+gravity = Vector2(0, 100)
+color = Color(0.0140505, 0.0205743, 0.0209147, 1)
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_l7li0")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 127.0
+offset_bottom = 23.0
+text = "asfasdf"
+label_settings = SubResource("LabelSettings_yxfo7")
