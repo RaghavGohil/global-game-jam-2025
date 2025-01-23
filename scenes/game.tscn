@@ -80,6 +80,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="Control"]
+visible = false
 layout_mode = 0
 offset_right = 127.0
 offset_bottom = 23.0

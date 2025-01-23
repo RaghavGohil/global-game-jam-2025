@@ -48,9 +48,11 @@ func move_player(delta):
 func play_animation():
 	if velocity.x != 0:  # Moving
 		if $AnimationPlayer.current_animation != \"player_move\":
+			$CPUParticles2D.emitting = true
 			$AnimationPlayer.play(\"player_move\")
 	else:  # Idle
 		if $AnimationPlayer.current_animation != \"player_idle\":
+			$CPUParticles2D.emitting = false
 			$AnimationPlayer.play(\"player_idle\")
 	
 func _process(delta):
@@ -151,7 +153,7 @@ randomness = 1.0
 emission_shape = 3
 emission_rect_extents = Vector2(80, 45)
 gravity = Vector2(0, 100)
-color = Color(0.0140505, 0.0205743, 0.0209147, 1)
+color = Color(0.0134, 0.01967, 0.02, 0.105882)
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2(1, 3)
