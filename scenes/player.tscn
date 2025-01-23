@@ -1,14 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://dbu7luo43fneh"]
+[gd_scene load_steps=15 format=3 uid="uid://dbu7luo43fneh"]
 
 [ext_resource type="Texture2D" uid="uid://3inttbb8i4sm" path="res://sprites/tilemaps/gun.png" id="1_eo11n"]
 [ext_resource type="Script" path="res://scenes/gun.gd" id="2_skjeg"]
+[ext_resource type="PackedScene" uid="uid://yawp6h0c6mki" path="res://scenes/bubble.tscn" id="3_i7jmg"]
 [ext_resource type="Texture2D" uid="uid://bl01yys0l5346" path="res://sprites/tilemaps/player_1.png" id="3_jae7b"]
 [ext_resource type="Texture2D" uid="uid://dbeugq1v7638g" path="res://sprites/tilemaps/player_2.png" id="4_ba7lx"]
+[ext_resource type="Texture2D" uid="uid://dehenhrtgxqaq" path="res://sprites/tilemaps/bubble.png" id="4_n7ypu"]
 
 [sub_resource type="GDScript" id="GDScript_beeb3"]
 script/source = "extends CharacterBody2D
-
-@export var gun: Sprite2D  # Reference to the gun node
 
 const SPEED = 60.0
 const JUMP_VELOCITY = -200.0
@@ -20,12 +20,8 @@ func flip_player():
 	# Flip the sprite based on mouse position
 	if mouse_pos.x < player_pos.x:
 		$Sprite2D.flip_h = true  # Flip horizontally
-		gun.flip_v = true
 	else:
 		$Sprite2D.flip_h = false  # Default orientation
-		gun.flip_v = false
-	# Make the gun always point toward the mouse
-	gun.look_at(mouse_pos)
 
 func move_player(delta):
 	# Add the gravity.
@@ -62,6 +58,10 @@ func _process(delta):
 func _physics_process(delta):
 	move_player(delta)
 "
+
+[sub_resource type="Curve" id="Curve_r1otw"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.50188, 0.103947), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3n0b"]
 radius = 1.0
@@ -126,16 +126,33 @@ _data = {
 "player_move": SubResource("Animation_b5btq")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
+[node name="Player" type="CharacterBody2D"]
 script = SubResource("GDScript_beeb3")
-gun = NodePath("Gun")
 
-[node name="Gun" type="Sprite2D" parent="." node_paths=PackedStringArray("player")]
+[node name="Gun" type="Sprite2D" parent="." node_paths=PackedStringArray("player", "gun_tip", "particle_fx")]
 texture_filter = 1
 texture = ExtResource("1_eo11n")
 offset = Vector2(4, 0)
 script = ExtResource("2_skjeg")
 player = NodePath("..")
+gun_tip = NodePath("Tip")
+bubble_scene = ExtResource("3_i7jmg")
+particle_fx = NodePath("CPUParticles2D")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Gun"]
+position = Vector2(6, 0)
+emitting = false
+amount = 5
+lifetime = 0.2
+one_shot = true
+texture = ExtResource("4_n7ypu")
+emission_shape = 1
+emission_sphere_radius = 2.4
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_r1otw")
+
+[node name="Tip" type="Node2D" parent="Gun"]
+position = Vector2(6, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

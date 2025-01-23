@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://luipmdfkdgq8"]
+[gd_scene load_steps=9 format=3 uid="uid://luipmdfkdgq8"]
 
 [ext_resource type="Texture2D" uid="uid://cqu0bnfpj24qr" path="res://sprites/tilemaps/tilemap.png" id="1_x2fx8"]
 [ext_resource type="PackedScene" uid="uid://dbu7luo43fneh" path="res://scenes/player.tscn" id="2_muhic"]
+[ext_resource type="PackedScene" uid="uid://yawp6h0c6mki" path="res://scenes/bubble.tscn" id="3_q04js"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r7nwh"]
 texture = ExtResource("1_x2fx8")
@@ -86,3 +87,5 @@ offset_right = 127.0
 offset_bottom = 23.0
 text = "asfasdf"
 label_settings = SubResource("LabelSettings_yxfo7")
+
+[node name="Bubble" parent="." instance=ExtResource("3_q04js")]
