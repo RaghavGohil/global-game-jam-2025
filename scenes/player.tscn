@@ -1,0 +1,170 @@
+[gd_scene load_steps=12 format=3 uid="uid://dbu7luo43fneh"]
+
+[ext_resource type="Texture2D" uid="uid://3inttbb8i4sm" path="res://sprites/tilemaps/gun.png" id="1_eo11n"]
+[ext_resource type="Script" path="res://scenes/gun.gd" id="2_skjeg"]
+[ext_resource type="Texture2D" uid="uid://bl01yys0l5346" path="res://sprites/tilemaps/player_1.png" id="3_jae7b"]
+[ext_resource type="Texture2D" uid="uid://dbeugq1v7638g" path="res://sprites/tilemaps/player_2.png" id="4_ba7lx"]
+
+[sub_resource type="GDScript" id="GDScript_beeb3"]
+script/source = "extends CharacterBody2D
+
+@export var gun: Sprite2D  # Reference to the gun node
+
+const SPEED = 60.0
+const JUMP_VELOCITY = -200.0
+var facing_right = true  # Track player direction
+
+func flip_player():
+	var mouse_pos = get_global_mouse_position()
+	var player_pos = global_position
+	# Flip the sprite based on mouse position
+	if mouse_pos.x < player_pos.x:
+		$Sprite2D.flip_h = true  # Flip horizontally
+		gun.flip_v = true
+	else:
+		$Sprite2D.flip_h = false  # Default orientation
+		gun.flip_v = false
+	# Make the gun always point toward the mouse
+	gun.look_at(mouse_pos)
+
+func move_player(delta):
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"jump\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction = Input.get_axis(\"move_left\", \"move_right\")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+	move_and_slide()
+	
+func play_animation():
+	if velocity.x != 0:  # Moving
+		if $AnimationPlayer.current_animation != \"player_move\":
+			$AnimationPlayer.play(\"player_move\")
+	else:  # Idle
+		if $AnimationPlayer.current_animation != \"player_idle\":
+			$AnimationPlayer.play(\"player_idle\")
+	
+func _process(delta):
+	flip_player()
+	play_animation()
+
+func _physics_process(delta):
+	move_player(delta)
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3n0b"]
+radius = 1.0
+height = 6.0
+
+[sub_resource type="Curve" id="Curve_7gvgt"]
+_data = [Vector2(0, 0.956643), 0.0, 0.0, 0, 0, Vector2(0.953007, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_yk412"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_jae7b")]
+}
+
+[sub_resource type="Animation" id="Animation_vjj22"]
+resource_name = "player_idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_b5btq"]
+resource_name = "player_move"
+length = 0.134
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_jae7b"), ExtResource("4_ba7lx"), ExtResource("3_jae7b")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nfiy8"]
+_data = {
+"RESET": SubResource("Animation_yk412"),
+"player_idle": SubResource("Animation_vjj22"),
+"player_move": SubResource("Animation_b5btq")
+}
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
+script = SubResource("GDScript_beeb3")
+gun = NodePath("Gun")
+
+[node name="Gun" type="Sprite2D" parent="." node_paths=PackedStringArray("player")]
+texture_filter = 1
+texture = ExtResource("1_eo11n")
+offset = Vector2(4, 0)
+script = ExtResource("2_skjeg")
+player = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("3_jae7b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_w3n0b")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Camera2D"]
+lifetime = 2.0
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(80, 45)
+gravity = Vector2(0, 100)
+color = Color(0.0140505, 0.0205743, 0.0209147, 1)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(1, 3)
+amount = 2
+lifetime = 0.2
+randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 3.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_7gvgt")
+color = Color(0.068902, 0.0706288, 0.0702037, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_nfiy8")
+}
