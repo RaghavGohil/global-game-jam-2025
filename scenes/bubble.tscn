@@ -11,7 +11,7 @@ radius = 3.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ystk"]
 radius = 4.12311
 
-[node name="RigidBody2D" type="RigidBody2D" groups=["player"]]
+[node name="RigidBody2D" type="RigidBody2D"]
 mass = 0.001
 gravity_scale = 0.0
 lock_rotation = true
@@ -26,8 +26,10 @@ texture = ExtResource("2_2wuey")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_2swpc")
+disabled = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["bubble"]]
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_7ystk")

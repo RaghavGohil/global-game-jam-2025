@@ -64,5 +64,3 @@ func shoot_bubble():
 		particle_fx.restart()  # Restart effect
 	else:
 		print("Warning: Particle effect is not assigned!")
-
-	print("Bubble shot!")

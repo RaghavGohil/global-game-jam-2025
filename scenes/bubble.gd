@@ -47,5 +47,4 @@ func _explode():
 
 func _on_area_2d_body_entered(body: Node2D):
 	if not body.is_in_group("player"):
-		print(body.name)
 		_explode()
