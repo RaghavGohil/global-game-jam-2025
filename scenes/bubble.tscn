@@ -9,7 +9,7 @@
 radius = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ystk"]
-radius = 4.0
+radius = 3.0
 
 [node name="RigidBody2D" type="RigidBody2D"]
 mass = 0.001
