@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjb36d0o83hhr"]
+
+[ext_resource type="Script" path="res://scenes/bubble_explode.gd" id="1_5k5cn"]
+
+[sub_resource type="Curve" id="Curve_susju"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.971804, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+emitting = false
+amount = 7
+one_shot = true
+speed_scale = 5.05
+emission_shape = 1
+emission_sphere_radius = 8.27
+gravity = Vector2(0, 0)
+radial_accel_max = 100.0
+scale_amount_curve = SubResource("Curve_susju")
+script = ExtResource("1_5k5cn")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

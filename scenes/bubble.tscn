@@ -1,18 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://yawp6h0c6mki"]
+[gd_scene load_steps=7 format=3 uid="uid://yawp6h0c6mki"]
 
 [ext_resource type="Material" uid="uid://dmh2dksbtrrwh" path="res://shaders/bubble.tres" id="1_jl2an"]
 [ext_resource type="Texture2D" uid="uid://dehenhrtgxqaq" path="res://sprites/tilemaps/bubble.png" id="2_2wuey"]
+[ext_resource type="PackedScene" uid="uid://bjb36d0o83hhr" path="res://scenes/bubble_explode.tscn" id="2_dp4cy"]
 [ext_resource type="Script" path="res://scenes/bubble.gd" id="3_gx0jn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2swpc"]
-radius = 4.0
+radius = 3.0
 
-[node name="RigidBody2D" type="RigidBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_7ystk"]
+radius = 4.12311
+
+[node name="RigidBody2D" type="RigidBody2D" groups=["player"]]
 mass = 0.001
 gravity_scale = 0.0
 lock_rotation = true
 freeze_mode = 1
 script = ExtResource("3_gx0jn")
+explosion_particles = ExtResource("2_dp4cy")
 
 [node name="Bubble" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -21,3 +26,10 @@ texture = ExtResource("2_2wuey")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_2swpc")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_7ystk")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

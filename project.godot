@@ -27,6 +27,10 @@ window/stretch/scale=4.0
 
 project/assembly_name="global-game-jam-2025"
 
+[global_group]
+
+player=""
+
 [input]
 
 move_left={

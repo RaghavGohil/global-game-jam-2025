@@ -126,7 +126,7 @@ _data = {
 "player_move": SubResource("Animation_b5btq")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = SubResource("GDScript_beeb3")
 
 [node name="Gun" type="Sprite2D" parent="." node_paths=PackedStringArray("player", "gun_tip", "particle_fx")]
@@ -158,7 +158,9 @@ position = Vector2(6, 0)
 texture_filter = 1
 texture = ExtResource("3_jae7b")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 shape = SubResource("CapsuleShape2D_w3n0b")
 
 [node name="Camera2D" type="Camera2D" parent="."]
