@@ -9,7 +9,7 @@
 radius = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ystk"]
-radius = 4.12311
+radius = 4.0
 
 [node name="RigidBody2D" type="RigidBody2D"]
 mass = 0.001
@@ -28,10 +28,9 @@ texture = ExtResource("2_2wuey")
 shape = SubResource("CircleShape2D_2swpc")
 disabled = true
 
-[node name="Area2D" type="Area2D" parent="." groups=["bubble"]]
-monitoring = false
+[node name="Area_Bubble" type="Area2D" parent="." groups=["bubble"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area_Bubble"]
 shape = SubResource("CircleShape2D_7ystk")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area_Bubble" to="." method="_on_area_bubble_body_entered"]

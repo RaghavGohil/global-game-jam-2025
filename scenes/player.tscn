@@ -86,7 +86,6 @@ func _physics_process(delta):
 # When entering the bubble
 func _on_area_2d_area_entered(area: Area2D):
 	if area.is_in_group('bubble'):
-		print(\"Entered Bubble:\", area.name)
 		inside_bubble = true
 		gravity = 0  # Disable gravity
 		current_bubble = area  # Store reference to the bubble
@@ -99,7 +98,6 @@ func _on_area_2d_area_entered(area: Area2D):
 # Exiting the bubble when pressing Space
 func exit_bubble():
 	if inside_bubble and current_bubble:
-		print(\"Exiting Bubble\")
 		inside_bubble = false
 		gravity = 980  # Restore gravity
 		velocity.y = JUMP_VELOCITY  # Apply jump force
@@ -109,7 +107,6 @@ func exit_bubble():
 # When leaving the bubble naturally
 func _on_area_2d_area_exited(area: Area2D):
 	if area.is_in_group('bubble'):
-		print(\"Left Bubble\")
 		inside_bubble = false
 		gravity = 980  # Restore gravity
 		current_bubble = null  # Remove bubble reference
