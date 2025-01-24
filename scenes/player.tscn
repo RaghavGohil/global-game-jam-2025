@@ -10,14 +10,18 @@
 [sub_resource type="GDScript" id="GDScript_beeb3"]
 script/source = "extends CharacterBody2D
 
-const SPEED = 40.0
-const JUMP_VELOCITY = -150.0
-var gravity = 980
+const SPEED = 50.0
+const JUMP_VELOCITY = -170.0
+var org_gravity = 680
+var gravity:int
 var facing_right = true  
 var inside_bubble = false  
-var current_bubble = null  # Store reference to the bubble
+var bubbles_inside = {}  # Dictionary to track multiple bubbles
 var bubble_last_position = Vector2.ZERO  # Store last bubble position
 var bubble_velocity = Vector2.ZERO  # Store calculated bubble velocity
+
+func _ready():
+	gravity = org_gravity
 
 func flip_player():
 	var mouse_pos = get_global_mouse_position()
@@ -28,7 +32,11 @@ func flip_player():
 		$Sprite2D.flip_h = false  
 
 func move_player(delta):
-	if inside_bubble and current_bubble:
+	# Inside any bubble
+	if inside_bubble and bubbles_inside.size() > 0:
+		# Pick the latest bubble in the list (or you can implement your own choice logic)
+		var current_bubble = bubbles_inside.keys()[0]
+
 		# Calculate bubble velocity based on movement
 		bubble_velocity = (current_bubble.global_position - bubble_last_position) / delta
 		bubble_last_position = current_bubble.global_position  # Update last position
@@ -67,7 +75,8 @@ func move_player(delta):
 	move_and_slide()
 
 func play_animation():
-	if velocity.x != 0 or velocity.y != 0:  
+	# Only play move animation if the velocity is non-zero and the player is NOT inside any bubble
+	if velocity.length() > 0.1 and not inside_bubble:
 		if $AnimationPlayer.current_animation != \"player_move\":
 			$CPUParticles2D.emitting = true
 			$AnimationPlayer.play(\"player_move\")
@@ -75,6 +84,7 @@ func play_animation():
 		if $AnimationPlayer.current_animation != \"player_idle\":
 			$CPUParticles2D.emitting = false
 			$AnimationPlayer.play(\"player_idle\")
+
 	
 func _process(delta):
 	flip_player()
@@ -83,34 +93,48 @@ func _process(delta):
 func _physics_process(delta):
 	move_player(delta)
 
-# When entering the bubble
+# When entering a bubble
 func _on_area_2d_area_entered(area: Area2D):
+	print(\"Entered:\", area.name)
 	if area.is_in_group('bubble'):
 		inside_bubble = true
 		gravity = 0  # Disable gravity
-		current_bubble = area  # Store reference to the bubble
-		bubble_last_position = current_bubble.global_position  # Initialize position tracking
+
+		# Add bubble to the dictionary
+		bubbles_inside[area] = true  
+		bubble_last_position = area.global_position  # Initialize position tracking
 		
 		# Move player to the center of the bubble
-		global_position = current_bubble.global_position
+		global_position = area.global_position
 		velocity = Vector2.ZERO  # Reset velocity
 
 # Exiting the bubble when pressing Space
 func exit_bubble():
-	if inside_bubble and current_bubble:
-		inside_bubble = false
-		gravity = 980  # Restore gravity
-		velocity.y = JUMP_VELOCITY  # Apply jump force
-		current_bubble = null  # Remove bubble reference
-		bubble_velocity = Vector2.ZERO  # Reset bubble velocity
+	print('Exiting bubble...')
+	if inside_bubble and bubbles_inside.size() > 0:
+		# Remove the current bubble from the list
+		var current_bubble = bubbles_inside.keys()[0]
+		bubbles_inside.erase(current_bubble)
 
-# When leaving the bubble naturally
+		# If no bubbles are left, restore gravity
+		if bubbles_inside.size() == 0:
+			inside_bubble = false
+			gravity = org_gravity  # Restore gravity
+			velocity.y = JUMP_VELOCITY  # Apply jump force
+			bubble_velocity = Vector2.ZERO  # Reset bubble velocity
+
+# When leaving a bubble naturally
 func _on_area_2d_area_exited(area: Area2D):
+	print(\"Exited:\", area.name)
 	if area.is_in_group('bubble'):
-		inside_bubble = false
-		gravity = 980  # Restore gravity
-		current_bubble = null  # Remove bubble reference
-		bubble_velocity = Vector2.ZERO  # Reset bubble velocity
+		# Remove the bubble from the dictionary
+		bubbles_inside.erase(area)
+
+		# If no bubbles remain, restore gravity
+		if bubbles_inside.size() == 0:
+			inside_bubble = false
+			gravity = org_gravity  # Restore gravity
+			bubble_velocity = Vector2.ZERO  # Reset bubble velocity
 "
 
 [sub_resource type="Curve" id="Curve_r1otw"]

@@ -57,7 +57,7 @@ func shoot_bubble():
 	
 	# Apply an impulse to move the bubble forward
 	if bubble.has_method("set_impulse"):
-		bubble.set_impulse(direction*0.01)
+		bubble.set_impulse(direction*0.015)
 	
 	# Play particle effect safely
 	if particle_fx:
