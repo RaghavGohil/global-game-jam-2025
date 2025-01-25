@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://dbu7luo43fneh"]
 
-[ext_resource type="Texture2D" uid="uid://3inttbb8i4sm" path="res://sprites/tilemaps/gun.png" id="1_eo11n"]
-[ext_resource type="Script" path="res://scenes/gun.gd" id="2_skjeg"]
+[ext_resource type="Texture2D" uid="uid://3inttbb8i4sm" path="res://sprites/gun.png" id="1_eo11n"]
+[ext_resource type="Script" path="res://scripts/gun.gd" id="2_skjeg"]
 [ext_resource type="PackedScene" uid="uid://yawp6h0c6mki" path="res://scenes/bubble.tscn" id="3_i7jmg"]
-[ext_resource type="Texture2D" uid="uid://bl01yys0l5346" path="res://sprites/tilemaps/player_1.png" id="3_jae7b"]
-[ext_resource type="Texture2D" uid="uid://dbeugq1v7638g" path="res://sprites/tilemaps/player_2.png" id="4_ba7lx"]
-[ext_resource type="Texture2D" uid="uid://dehenhrtgxqaq" path="res://sprites/tilemaps/bubble.png" id="4_n7ypu"]
+[ext_resource type="Texture2D" uid="uid://bl01yys0l5346" path="res://sprites/player_1.png" id="3_jae7b"]
+[ext_resource type="Texture2D" uid="uid://dbeugq1v7638g" path="res://sprites/player_2.png" id="4_ba7lx"]
+[ext_resource type="Texture2D" uid="uid://dehenhrtgxqaq" path="res://sprites/bubble.png" id="4_n7ypu"]
 
 [sub_resource type="GDScript" id="GDScript_beeb3"]
 script/source = "extends CharacterBody2D
@@ -95,7 +95,6 @@ func _physics_process(delta):
 
 # When entering a bubble
 func _on_area_2d_area_entered(area: Area2D):
-	print(\"Entered:\", area.name)
 	if area.is_in_group('bubble'):
 		inside_bubble = true
 		gravity = 0  # Disable gravity
@@ -110,7 +109,6 @@ func _on_area_2d_area_entered(area: Area2D):
 
 # Exiting the bubble when pressing Space
 func exit_bubble():
-	print('Exiting bubble...')
 	if inside_bubble and bubbles_inside.size() > 0:
 		# Remove the current bubble from the list
 		var current_bubble = bubbles_inside.keys()[0]
@@ -125,7 +123,6 @@ func exit_bubble():
 
 # When leaving a bubble naturally
 func _on_area_2d_area_exited(area: Area2D):
-	print(\"Exited:\", area.name)
 	if area.is_in_group('bubble'):
 		# Remove the bubble from the dictionary
 		bubbles_inside.erase(area)
@@ -135,6 +132,10 @@ func _on_area_2d_area_exited(area: Area2D):
 			inside_bubble = false
 			gravity = org_gravity  # Restore gravity
 			bubble_velocity = Vector2.ZERO  # Reset bubble velocity
+
+func _on_area_2d_body_entered(body:Node2D):
+	if body.is_in_group('trap_one_hit'):
+		get_tree().reload_current_scene()
 "
 
 [sub_resource type="Curve" id="Curve_r1otw"]
@@ -249,6 +250,7 @@ shape = SubResource("CapsuleShape2D_uehwk")
 shape = SubResource("CapsuleShape2D_w3n0b")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Camera2D"]
@@ -277,3 +279,4 @@ libraries = {
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

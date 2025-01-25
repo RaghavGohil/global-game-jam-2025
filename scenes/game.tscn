@@ -1,7 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://luipmdfkdgq8"]
+[gd_scene load_steps=10 format=3 uid="uid://luipmdfkdgq8"]
 
+[ext_resource type="PackedScene" uid="uid://b0o2htve3hejl" path="res://scenes/spike.tscn" id="1_bgsvp"]
 [ext_resource type="Texture2D" uid="uid://cqu0bnfpj24qr" path="res://sprites/tilemaps/tilemap.png" id="1_x2fx8"]
+[ext_resource type="PackedScene" uid="uid://d0dv60gsgh3ig" path="res://scenes/turret.tscn" id="2_empu7"]
 [ext_resource type="PackedScene" uid="uid://dbu7luo43fneh" path="res://scenes/player.tscn" id="2_muhic"]
+[ext_resource type="PackedScene" uid="uid://dacp8h40edgg8" path="res://scenes/ui.tscn" id="5_gen6q"]
+
+[sub_resource type="Environment" id="Environment_l7li0"]
+background_mode = 3
+background_color = Color(0.671094, 0.653352, 0.657808, 1)
+glow_enabled = true
+glow_intensity = 0.2
+glow_strength = 0.85
+glow_bloom = 0.2
+glow_blend_mode = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r7nwh"]
 texture = ExtResource("1_x2fx8")
@@ -47,27 +59,28 @@ sources/0 = SubResource("TileSetAtlasSource_r7nwh")
 _data = [Vector2(0, 0.696498), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Environment" id="Environment_l7li0"]
-background_mode = 3
-background_color = Color(0.671094, 0.653352, 0.657808, 1)
-glow_enabled = true
-glow_intensity = 0.2
-glow_strength = 0.85
-glow_bloom = 0.2
-glow_blend_mode = 1
-
-[sub_resource type="LabelSettings" id="LabelSettings_yxfo7"]
-font_size = 6
-
 [node name="Node2D" type="Node2D"]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Traps" type="Node2D" parent="Environment"]
+
+[node name="Spike" parent="Environment/Traps" instance=ExtResource("1_bgsvp")]
+position = Vector2(12, -4)
+
+[node name="TurretBase" parent="Environment/Traps" instance=ExtResource("2_empu7")]
+position = Vector2(-20, 4)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_l7li0")
+
+[node name="TileMap" type="TileMap" parent="Environment"]
 texture_filter = 1
 tile_set = SubResource("TileSet_leepm")
 format = 2
-layer_0/tile_data = PackedInt32Array(1, 196608, 3, 2, 131072, 3, 3, 131072, 3, 4, 131072, 3, 5, 131072, 3, 6, 393216, 3, -65530, 393216, 2, -65529, 131072, 3, -65528, 131072, 3, -65527, 131072, 3, -131070, 458752, 2, -131073, 458752, 2, -262140, 458752, 2, -262135, 589824, 1, -131067, 524288, 2, -65526, 393216, 3, -131062, 393216, 2, -196597, 0, 805306370, -131061, 393216, 3, -65533, 131072, 2, 65536, 131072, 3, 131071, 131072, 3, 131070, 131072, 3, 131069, 131072, 3, -65531, 196608, 2, -131066, 196608, 2, -131065, 196608, 2, -131064, 196608, 2, -131063, 196608, 2, -131071, 196608, 1, -131074, 196608, 1, -327677, 196608, 1, -393216, 196608, 1, -393218, 196608, 1, -458747, 196608, 1)
+layer_0/tile_data = PackedInt32Array(1, 196608, 3, 2, 131072, 3, 3, 131072, 3, 4, 131072, 3, 5, 131072, 3, 6, 393216, 3, -65530, 393216, 2, -65529, 131072, 3, -65528, 131072, 3, -65527, 131072, 3, -131070, 458752, 2, -131073, 458752, 2, -262140, 458752, 2, -262135, 589824, 1, -131067, 524288, 2, -65526, 393216, 3, -131062, 393216, 2, -196597, 0, 805306370, -131061, 393216, 3, 65536, 131072, 3, 131071, 131072, 3, 131070, 131072, 3, 131069, 131072, 3, -131071, 196608, 1, -131074, 196608, 1, -327677, 196608, 1, -393216, 196608, 1, -393218, 196608, 1, -458747, 196608, 1)
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="TileMap"]
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Environment/TileMap"]
 position = Vector2(90, -20)
 emission_shape = 3
 emission_rect_extents = Vector2(1, 4.95)
@@ -78,19 +91,5 @@ color = Color(0.0313726, 0.67451, 0.996078, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_muhic")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_l7li0")
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Label" type="Label" parent="Control"]
+[node name="UI" parent="." instance=ExtResource("5_gen6q")]
 visible = false
-layout_mode = 0
-offset_right = 127.0
-offset_bottom = 23.0
-text = "asfasdf"
-label_settings = SubResource("LabelSettings_yxfo7")

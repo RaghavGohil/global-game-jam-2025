@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0dv60gsgh3ig"]
+
+[ext_resource type="Script" path="res://scripts/turret.gd" id="1_aud12"]
+[ext_resource type="Texture2D" uid="uid://4uck6cte742j" path="res://sprites/turret_base.png" id="1_ev7ne"]
+[ext_resource type="Texture2D" uid="uid://45hbm3uv1cud" path="res://sprites/turret_head.png" id="1_r48cm"]
+[ext_resource type="PackedScene" uid="uid://b3t447udcd6qu" path="res://scenes/turret_bullet.tscn" id="3_padeh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dcuci"]
+size = Vector2(6, 4)
+
+[node name="StaticBody2D" type="StaticBody2D" node_paths=PackedStringArray("fire_point", "turret_head", "fire_timer")]
+script = ExtResource("1_aud12")
+bullet_scene = ExtResource("3_padeh")
+fire_point = NodePath("TurretHead/FirePoint")
+turret_head = NodePath("TurretHead")
+fire_timer = NodePath("FireTimer")
+
+[node name="TurretHead" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 1)
+texture = ExtResource("1_r48cm")
+offset = Vector2(0, -1.495)
+
+[node name="FirePoint" type="Node2D" parent="TurretHead"]
+position = Vector2(0, -6)
+
+[node name="TurretBase" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_ev7ne")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_dcuci")
+
+[node name="FireTimer" type="Timer" parent="."]

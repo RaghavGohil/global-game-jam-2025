@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://yawp6h0c6mki"]
 
 [ext_resource type="Material" uid="uid://dmh2dksbtrrwh" path="res://shaders/bubble.tres" id="1_jl2an"]
-[ext_resource type="Texture2D" uid="uid://dehenhrtgxqaq" path="res://sprites/tilemaps/bubble.png" id="2_2wuey"]
+[ext_resource type="Texture2D" uid="uid://dehenhrtgxqaq" path="res://sprites/bubble.png" id="2_2wuey"]
 [ext_resource type="PackedScene" uid="uid://bjb36d0o83hhr" path="res://scenes/bubble_explode.tscn" id="2_dp4cy"]
-[ext_resource type="Script" path="res://scenes/bubble.gd" id="3_gx0jn"]
+[ext_resource type="Script" path="res://scripts/bubble.gd" id="3_gx0jn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2swpc"]
 radius = 3.0

@@ -21,7 +21,6 @@ window/size/viewport_width=640
 window/size/viewport_height=480
 window/size/mode=3
 window/stretch/mode="canvas_items"
-window/stretch/scale=4.0
 
 [dotnet]
 
@@ -31,6 +30,7 @@ project/assembly_name="global-game-jam-2025"
 
 player=""
 bubble=""
+trap_one_hit=""
 
 [input]
 
