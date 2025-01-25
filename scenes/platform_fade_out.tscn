@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cplu5kp8tj87k"]
+[gd_scene load_steps=4 format=3 uid="uid://cplu5kp8tj87k"]
 
 [ext_resource type="Script" path="res://scripts/platform_fade_out.gd" id="1_4pmej"]
 [ext_resource type="Texture2D" uid="uid://b0uj2mgg1o0ns" path="res://sprites/platform.png" id="1_sex4m"]
-[ext_resource type="PackedScene" uid="uid://bckmuijwh0jib" path="res://scenes/platform_normal.tscn" id="3_gjxc6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w51qg"]
 size = Vector2(4, 2)
@@ -20,6 +19,3 @@ texture = ExtResource("1_sex4m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_w51qg")
-
-[node name="Platform2" parent="." instance=ExtResource("3_gjxc6")]
-position = Vector2(9, -15)
