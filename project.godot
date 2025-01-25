@@ -32,6 +32,7 @@ player=""
 bubble=""
 trap_one_hit=""
 bullet=""
+force_field=""
 
 [input]
 

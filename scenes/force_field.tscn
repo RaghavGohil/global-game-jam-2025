@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://by0oqmtfop2b"]
+
+[ext_resource type="Script" path="res://scripts/force_field.gd" id="1_0stfe"]
+[ext_resource type="Texture2D" uid="uid://c43hgt3wcxe1b" path="res://sprites/force_field.png" id="1_vgpgj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_idc17"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0dudm"]
+radius = 20.025
+
+[sub_resource type="Curve" id="Curve_3u2rk"]
+_data = [Vector2(0.0018797, 0.94219), 0.0, 0.0, 0, 0, Vector2(0.904135, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="StaticBody2D" type="StaticBody2D"]
+script = ExtResource("1_0stfe")
+
+[node name="ForceField" type="Sprite2D" parent="."]
+modulate = Color(0.550522, 0.323084, 0.55071, 1)
+texture_filter = 1
+texture = ExtResource("1_vgpgj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_idc17")
+disabled = true
+
+[node name="Area2D" type="Area2D" parent="." groups=["force_field"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_0dudm")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 10
+emission_shape = 1
+emission_sphere_radius = 12.13
+gravity = Vector2(0, 0)
+radial_accel_max = 40.43
+scale_amount_curve = SubResource("Curve_3u2rk")
+color = Color(0.301961, 0.160784, 0.301961, 1)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

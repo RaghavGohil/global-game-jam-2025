@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://luipmdfkdgq8"]
+[gd_scene load_steps=22 format=3 uid="uid://luipmdfkdgq8"]
 
 [ext_resource type="PackedScene" uid="uid://b0o2htve3hejl" path="res://scenes/spike.tscn" id="1_bgsvp"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_gdabb"]
@@ -12,6 +12,7 @@
 [ext_resource type="Shader" path="res://shaders/scene_transition.gdshader" id="6_tcuiv"]
 [ext_resource type="PackedScene" uid="uid://cplu5kp8tj87k" path="res://scenes/platform_fade_out.tscn" id="10_cjfg8"]
 [ext_resource type="PackedScene" uid="uid://beepcvhacjscm" path="res://scenes/platform_slippery.tscn" id="12_vadjo"]
+[ext_resource type="PackedScene" uid="uid://by0oqmtfop2b" path="res://scenes/force_field.tscn" id="13_dm4xt"]
 
 [sub_resource type="Environment" id="Environment_l7li0"]
 background_mode = 3
@@ -194,3 +195,6 @@ fade_time = 0.4
 [node name="Platform Slippery" parent="." instance=ExtResource("12_vadjo")]
 position = Vector2(51, -17)
 scale = Vector2(3.76, 1)
+
+[node name="ForceField" parent="." instance=ExtResource("13_dm4xt")]
+position = Vector2(55, -30)
