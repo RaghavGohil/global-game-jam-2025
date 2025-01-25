@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://luipmdfkdgq8"]
+[gd_scene load_steps=17 format=3 uid="uid://luipmdfkdgq8"]
 
 [ext_resource type="PackedScene" uid="uid://b0o2htve3hejl" path="res://scenes/spike.tscn" id="1_bgsvp"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_gdabb"]
 [ext_resource type="Texture2D" uid="uid://cqu0bnfpj24qr" path="res://sprites/tilemaps/tilemap.png" id="1_x2fx8"]
 [ext_resource type="PackedScene" uid="uid://d0dv60gsgh3ig" path="res://scenes/turret.tscn" id="2_empu7"]
 [ext_resource type="PackedScene" uid="uid://dbu7luo43fneh" path="res://scenes/player.tscn" id="2_muhic"]
-[ext_resource type="PackedScene" uid="uid://dacp8h40edgg8" path="res://scenes/ui.tscn" id="5_gen6q"]
+[ext_resource type="FontFile" uid="uid://bl65kkvsq16jk" path="res://fonts/joystix monospace.otf" id="5_of0x7"]
+[ext_resource type="Script" path="res://scripts/scene_fade_transition.gd" id="6_e7xhd"]
+[ext_resource type="Shader" path="res://shaders/scene_transition.gdshader" id="6_tcuiv"]
 
 [sub_resource type="Environment" id="Environment_l7li0"]
 background_mode = 3
@@ -59,7 +62,26 @@ sources/0 = SubResource("TileSetAtlasSource_r7nwh")
 _data = [Vector2(0, 0.696498), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Game" type="Node2D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tnw6m"]
+shader = ExtResource("6_tcuiv")
+shader_parameter/fade = null
+
+[sub_resource type="LabelSettings" id="LabelSettings_yxfo7"]
+font = ExtResource("5_of0x7")
+font_size = 51
+font_color = Color(1, 0.1, 0.1, 1)
+
+[sub_resource type="Theme" id="Theme_2oxou"]
+default_font = ExtResource("5_of0x7")
+default_font_size = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_we21q"]
+shader = ExtResource("6_tcuiv")
+shader_parameter/fade = null
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("transition_color_rect")]
+script = ExtResource("1_gdabb")
+transition_color_rect = NodePath("UI/UI/ColorRect")
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -89,7 +111,64 @@ initial_velocity_max = 35.47
 scale_amount_curve = SubResource("Curve_dgryc")
 color = Color(0.0313726, 0.67451, 0.996078, 1)
 
-[node name="Player" parent="." instance=ExtResource("2_muhic")]
+[node name="Player" parent="." node_paths=PackedStringArray("game_manager") instance=ExtResource("2_muhic")]
+material = SubResource("ShaderMaterial_tnw6m")
+game_manager = NodePath("..")
 
-[node name="UI" parent="." instance=ExtResource("5_gen6q")]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DeadScreen" type="Control" parent="UI/UI"]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/UI/DeadScreen"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -169.0
+offset_right = 169.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="UI/UI/DeadScreen/VBoxContainer"]
+layout_mode = 2
+text = "YOU DED!"
+label_settings = SubResource("LabelSettings_yxfo7")
+horizontal_alignment = 1
+
+[node name="restart" type="Button" parent="UI/UI/DeadScreen/VBoxContainer"]
+modulate = Color(1, 0.933333, 0, 1)
+layout_mode = 2
+focus_mode = 0
+theme = SubResource("Theme_2oxou")
+text = "RESTART LVL"
+flat = true
+expand_icon = true
+
+[node name="ColorRect" type="ColorRect" parent="UI/UI"]
+material = SubResource("ShaderMaterial_we21q")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("6_e7xhd")
+fade_time = 0.4

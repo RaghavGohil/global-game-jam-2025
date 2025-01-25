@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dacp8h40edgg8"]
+[gd_scene load_steps=6 format=3 uid="uid://dacp8h40edgg8"]
 
 [ext_resource type="FontFile" uid="uid://bl65kkvsq16jk" path="res://fonts/joystix monospace.otf" id="1_0dd4s"]
+[ext_resource type="Shader" path="res://shaders/scene_transition.gdshader" id="2_q6idv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yxfo7"]
 font = ExtResource("1_0dd4s")
@@ -10,6 +11,10 @@ font_color = Color(1, 0.1, 0.1, 1)
 [sub_resource type="Theme" id="Theme_2oxou"]
 default_font = ExtResource("1_0dd4s")
 default_font_size = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_we21q"]
+shader = ExtResource("2_q6idv")
+shader_parameter/fade = null
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
@@ -57,37 +62,12 @@ text = "RESTART LVL"
 flat = true
 expand_icon = true
 
-[node name="DeadScreen2" type="Control" parent="UI"]
+[node name="ColorRect" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_we21q")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/DeadScreen2"]
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -169.0
-offset_right = 169.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="Label2" type="Label" parent="UI/DeadScreen2/VBoxContainer"]
-layout_mode = 2
-text = "YOU DED!"
-label_settings = SubResource("LabelSettings_yxfo7")
-horizontal_alignment = 1
-
-[node name="restart" type="Button" parent="UI/DeadScreen2/VBoxContainer"]
-modulate = Color(1, 0.933333, 0, 1)
-layout_mode = 2
-focus_mode = 0
-theme = SubResource("Theme_2oxou")
-text = "RESTART"
-flat = true
-expand_icon = true
+color = Color(0, 0, 0, 1)
