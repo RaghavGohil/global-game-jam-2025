@@ -30,12 +30,8 @@ func set_direction(new_direction: Vector2, new_speed: float):
 	
 # area is for the bullet to die. we dont want the bullet to die when it's touching a player
 func _on_area_2d_area_entered(area:Area2D):
-	print('area'+ area.name)
-	if not area.is_in_group('player') and not area.is_in_group('bullet'):
-		queue_free()
+	queue_free()
 
-# bullet dies on contact with another body
+# area is for the bullet to die. we dont want the bullet to die when it's touching a player
 func _on_area_2d_body_entered(body:Node2D):
-	print('body ' + body.name)
-	if not body.is_in_group('bullet') and not body.is_in_group('bubble'):
-		queue_free()
+	queue_free()

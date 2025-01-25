@@ -97,6 +97,10 @@ func _physics_process(delta):
 
 # When entering a bubble
 func _on_area_2d_area_entered(area: Area2D):
+	
+	if area.is_in_group('trap_one_hit'):
+		game_manager.restart_lvl()
+	
 	if area.is_in_group('bubble'):
 		inside_bubble = true
 		gravity = 0  # Disable gravity
@@ -134,10 +138,6 @@ func _on_area_2d_area_exited(area: Area2D):
 			inside_bubble = false
 			gravity = org_gravity  # Restore gravity
 			bubble_velocity = Vector2.ZERO  # Reset bubble velocity
-
-func _on_area_2d_body_entered(body:Node2D):
-	if body.is_in_group('trap_one_hit'):
-		game_manager.restart_lvl()
 "
 
 [sub_resource type="Curve" id="Curve_r1otw"]
@@ -145,12 +145,12 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.50188, 0.103947), 0.0, 0.0, 0,
 point_count = 2
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uehwk"]
-radius = 1.36423
-height = 5.0944
+radius = 1.73724
+height = 4.52997
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3n0b"]
-radius = 1.12723
-height = 4.46268
+radius = 1.20631
+height = 4.94291
 
 [sub_resource type="Curve" id="Curve_7gvgt"]
 _data = [Vector2(0, 0.956643), 0.0, 0.0, 0, 0, Vector2(0.953007, 0), 0.0, 0.0, 0, 0]

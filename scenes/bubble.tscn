@@ -11,7 +11,7 @@ radius = 3.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ystk"]
 radius = 3.91282
 
-[node name="Bubble" type="RigidBody2D"]
+[node name="Bubble" type="RigidBody2D" groups=["bubble"]]
 mass = 0.001
 gravity_scale = 0.0
 lock_rotation = true

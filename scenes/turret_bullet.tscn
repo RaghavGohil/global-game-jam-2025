@@ -17,13 +17,14 @@ timer = NodePath("Timer")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.015625, 0.0078125)
 shape = SubResource("RectangleShape2D_88x8g")
+disabled = true
 
 [node name="Turret_bullet" type="Sprite2D" parent="."]
 modulate = Color(0.93, 0, 0.0465002, 1)
 texture_filter = 1
 texture = ExtResource("1_8a7yi")
 
-[node name="Area2D" type="Area2D" parent="." groups=["trap_one_hit"]]
+[node name="Area2D" type="Area2D" parent="." groups=["bullet", "trap_one_hit"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-0.0195313, -0.0117188)
