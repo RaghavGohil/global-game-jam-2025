@@ -10,7 +10,8 @@ size = Vector2(4, 2)
 [node name="Fade Out Platform" type="StaticBody2D" node_paths=PackedStringArray("sprite", "collider")]
 script = ExtResource("1_4pmej")
 sprite = NodePath("Platform")
-cycle_duration = 2.0
+fade_duration = 0.5
+cycle_duration = 3.0
 collider = NodePath("CollisionShape2D")
 
 [node name="Platform" type="Sprite2D" parent="."]

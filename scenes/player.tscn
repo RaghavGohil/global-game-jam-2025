@@ -12,9 +12,9 @@ script/source = "extends CharacterBody2D
 
 @export var game_manager:Node2D
 
-const SPEED = 50.0
-const JUMP_VELOCITY = -170.0
-var org_gravity = 500
+const SPEED = 55.0
+const JUMP_VELOCITY = -130.0
+var org_gravity = 480
 var gravity:int
 var facing_right = true  
 var inside_bubble = false  
@@ -238,7 +238,7 @@ gravity = Vector2(0, 0)
 scale_amount_curve = SubResource("Curve_r1otw")
 
 [node name="Tip" type="Node2D" parent="Gun"]
-position = Vector2(9, 0)
+position = Vector2(9.97229, 0)
 
 [node name="Cooldown" type="Timer" parent="Gun"]
 
