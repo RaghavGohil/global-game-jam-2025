@@ -12,7 +12,7 @@ script/source = "extends CharacterBody2D
 
 const SPEED = 50.0
 const JUMP_VELOCITY = -170.0
-var org_gravity = 680
+var org_gravity = 500
 var gravity:int
 var facing_right = true  
 var inside_bubble = false  
@@ -78,14 +78,14 @@ func play_animation():
 	# Only play move animation if the velocity is non-zero and the player is NOT inside any bubble
 	if velocity.length() > 0.1 and not inside_bubble:
 		if $AnimationPlayer.current_animation != \"player_move\":
-			$CPUParticles2D.emitting = true
+			if is_on_floor():
+				$CPUParticles2D.emitting = true
 			$AnimationPlayer.play(\"player_move\")
 	else:  
 		if $AnimationPlayer.current_animation != \"player_idle\":
 			$CPUParticles2D.emitting = false
 			$AnimationPlayer.play(\"player_idle\")
 
-	
 func _process(delta):
 	flip_player()
 	play_animation()
@@ -143,12 +143,12 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.50188, 0.103947), 0.0, 0.0, 0,
 point_count = 2
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uehwk"]
-radius = 2.0
-height = 6.0
+radius = 1.36423
+height = 5.0944
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3n0b"]
-radius = 1.55
-height = 5.13391
+radius = 1.12723
+height = 4.46268
 
 [sub_resource type="Curve" id="Curve_7gvgt"]
 _data = [Vector2(0, 0.956643), 0.0, 0.0, 0, 0, Vector2(0.953007, 0), 0.0, 0.0, 0, 0]
@@ -241,12 +241,12 @@ position = Vector2(9, 0)
 texture_filter = 1
 texture = ExtResource("3_jae7b")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D_Player" type="Area2D" parent="." groups=["player"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_Player"]
 shape = SubResource("CapsuleShape2D_uehwk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_w3n0b")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -277,6 +277,6 @@ libraries = {
 "": SubResource("AnimationLibrary_nfiy8")
 }
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="area_entered" from="Area2D_Player" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D_Player" to="." method="_on_area_2d_area_exited"]
+[connection signal="body_entered" from="Area2D_Player" to="." method="_on_area_2d_body_entered"]

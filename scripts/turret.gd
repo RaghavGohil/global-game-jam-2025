@@ -3,7 +3,7 @@ extends StaticBody2D
 @export var bullet_scene: PackedScene  # Assign bullet scene in the inspector
 @export var fire_rate: float = 1.0  # Time between shots
 @export var range: float = 40.0  # Detection range
-@export var bullet_speed: float = 200.0  # Speed of bullets
+@export var bullet_speed: float = 100.0  # Speed of bullets
 @export var fire_point: Node2D
 @export var turret_head: Node2D
 @export var fire_timer: Timer

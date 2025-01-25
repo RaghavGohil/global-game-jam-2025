@@ -4,28 +4,32 @@
 [ext_resource type="Script" path="res://scripts/turret_bullet.gd" id="2_r6l77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_88x8g"]
+size = Vector2(1.96875, 0.96875)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ojmtq"]
-size = Vector2(2, 1)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jw7tg"]
+size = Vector2(2.25781, 1.30469)
 
-[node name="RigidBody2D" type="RigidBody2D" node_paths=PackedStringArray("timer")]
+[node name="TurretBullet" type="RigidBody2D" node_paths=PackedStringArray("timer") groups=["bullet", "trap_one_hit"]]
+gravity_scale = 0.0
 script = ExtResource("2_r6l77")
 timer = NodePath("Timer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.015625, 0.0078125)
 shape = SubResource("RectangleShape2D_88x8g")
-disabled = true
 
 [node name="Turret_bullet" type="Sprite2D" parent="."]
 modulate = Color(0.93, 0, 0.0465002, 1)
 texture_filter = 1
 texture = ExtResource("1_8a7yi")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["trap_one_hit"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_ojmtq")
+position = Vector2(-0.0195313, -0.0117188)
+shape = SubResource("RectangleShape2D_jw7tg")
 
 [node name="Timer" type="Timer" parent="."]
 
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

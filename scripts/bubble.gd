@@ -45,6 +45,6 @@ func _explode():
 	
 	queue_free()  # Remove bubble
 
-func _on_area_bubble_body_entered(body):
+func _on_area_bubble_body_entered(body): #if anything other than player, explode
 	if not body.is_in_group("player"):
 		_explode()

@@ -31,6 +31,7 @@ project/assembly_name="global-game-jam-2025"
 player=""
 bubble=""
 trap_one_hit=""
+bullet=""
 
 [input]
 
