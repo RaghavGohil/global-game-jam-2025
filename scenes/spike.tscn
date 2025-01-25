@@ -1,34 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0o2htve3hejl"]
+[gd_scene load_steps=5 format=3 uid="uid://b0o2htve3hejl"]
 
 [ext_resource type="Texture2D" uid="uid://bpn5chb38hmgp" path="res://sprites/spike.png" id="1_5ppv3"]
 
-[sub_resource type="GDScript" id="GDScript_wl371"]
-script/source = "extends Sprite2D
+[sub_resource type="GDScript" id="GDScript_w7qqq"]
+script/source = "extends StaticBody2D
 
-# Signal to notify when the player hits the spike trap
-signal player_hit_spike
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	# Optionally, set up collision shape (if not already part of the trap)
-	# You can attach a CollisionShape2D to this node if it doesn't already exist
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
 	pass
-# Called when the player collides with the spike trap
-func _on_spike_body_entered(body):
-	if body.is_in_group(\"player\"):  # Check if the colliding object is the player
-		emit_signal(\"player_hit_spike\")  # Emit signal to restart the level
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sw8od"]
 size = Vector2(6, 2)
 
-[node name="StaticBody2D" type="StaticBody2D" groups=["trap_one_hit"]]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8wbep"]
+size = Vector2(6, 2)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+script = SubResource("GDScript_w7qqq")
 
 [node name="Spike" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("1_5ppv3")
-script = SubResource("GDScript_wl371")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_sw8od")
+disabled = true
+
+[node name="Area2D" type="Area2D" parent="." groups=["trap_one_hit"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_8wbep")
