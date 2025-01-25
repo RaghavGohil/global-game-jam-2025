@@ -1,6 +1,6 @@
 extends ColorRect
 
-@export var fade_time := 1.0  # Time for fade effect
+@export var fade_time:float  # Time for fade effect
 var tween: Tween
 
 func _ready():

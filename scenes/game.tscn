@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://luipmdfkdgq8"]
+[gd_scene load_steps=19 format=3 uid="uid://luipmdfkdgq8"]
 
 [ext_resource type="PackedScene" uid="uid://b0o2htve3hejl" path="res://scenes/spike.tscn" id="1_bgsvp"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_gdabb"]
@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://bl65kkvsq16jk" path="res://fonts/joystix monospace.otf" id="5_of0x7"]
 [ext_resource type="Script" path="res://scripts/scene_fade_transition.gd" id="6_e7xhd"]
 [ext_resource type="Shader" path="res://shaders/scene_transition.gdshader" id="6_tcuiv"]
+[ext_resource type="PackedScene" uid="uid://cplu5kp8tj87k" path="res://scenes/platform_fade_out.tscn" id="10_cjfg8"]
 
 [sub_resource type="Environment" id="Environment_l7li0"]
 background_mode = 3
@@ -101,6 +102,9 @@ position = Vector2(9, -15)
 
 [node name="Platform2" parent="Environment/Platforms" instance=ExtResource("4_lmcjk")]
 position = Vector2(21, -30)
+
+[node name="Normal Platform" parent="Environment/Platforms" instance=ExtResource("10_cjfg8")]
+position = Vector2(22, -17)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_l7li0")
