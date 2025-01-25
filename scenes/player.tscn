@@ -214,7 +214,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = SubResource("GDScript_beeb3")
 
-[node name="Gun" type="Sprite2D" parent="." node_paths=PackedStringArray("player", "gun_tip", "particle_fx")]
+[node name="Gun" type="Sprite2D" parent="." node_paths=PackedStringArray("player", "gun_tip", "particle_fx", "cooldown_timer")]
 texture_filter = 1
 texture = ExtResource("1_eo11n")
 offset = Vector2(4, 0)
@@ -223,6 +223,7 @@ player = NodePath("..")
 gun_tip = NodePath("Tip")
 bubble_scene = ExtResource("3_i7jmg")
 particle_fx = NodePath("CPUParticles2D")
+cooldown_timer = NodePath("Cooldown")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Gun"]
 position = Vector2(6, 0)
@@ -238,6 +239,8 @@ scale_amount_curve = SubResource("Curve_r1otw")
 
 [node name="Tip" type="Node2D" parent="Gun"]
 position = Vector2(9, 0)
+
+[node name="Cooldown" type="Timer" parent="Gun"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

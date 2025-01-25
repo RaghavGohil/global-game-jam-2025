@@ -2,65 +2,72 @@ extends Sprite2D
 
 @export var player: Node2D  # Reference to the player node (must be assigned!)
 @export var gun_tip: Node2D
+@export var bubble_scene: PackedScene  # Assign bubble scene in Inspector
+@export var particle_fx: CPUParticles2D  # Assign particle effect
+@export var cooldown_time: float = 0.5  # Cooldown time in seconds
+@export var cooldown_timer: Timer
 
 # Movement and flip
 var mouse_pos: Vector2
 var player_pos: Vector2
 
-# Shooting
-@export var bubble_scene: PackedScene  # Assign bubble scene in Inspector
-@export var particle_fx: CPUParticles2D  # Assign particle effect
+# Shooting cooldown
+var can_shoot: bool = true  
 
-func _process(delta):
+func _ready():
 	# Ensure player is assigned
 	if not player:
 		print("Error: Player node is not assigned!")
 		return
 	
+	cooldown_timer.wait_time = cooldown_time
+	cooldown_timer.one_shot = true
+	cooldown_timer.timeout.connect(_on_shoot_cooldown_timeout)
+
+func _process(delta):
 	# Get positions
 	mouse_pos = get_global_mouse_position()
-	player_pos = player.global_position  # Get the actual player position
+	player_pos = player.global_position
 
-	# Flip gun based on mouse position
+	# Flip and rotate gun
 	flip_gun()
-
-	# Rotate gun towards mouse
 	rotate_gun()
 
-	# Shoot the gun and spawn a bubble	
-	if Input.is_action_just_pressed("shoot"):
+	# Shoot with cooldown
+	if Input.is_action_just_pressed("shoot") and can_shoot:
 		shoot_bubble()
 
-
 func flip_gun():
-	# Flip gun sprite based on mouse position relative to player
 	flip_v = mouse_pos.x < player_pos.x
 
 func rotate_gun():
-	# Rotate gun to point at the mouse
 	look_at(mouse_pos)
-	
+
 func shoot_bubble():
 	if not bubble_scene:
 		print("Bubble scene not assigned!")
 		return
 	
-	# Create the bubble instance
-	var bubble = bubble_scene.instantiate() as Node2D
-	player.get_parent().add_child(bubble)  # Add to player's parent
+	# Prevent further shooting
+	can_shoot = false
+	cooldown_timer.start()  # Start cooldown timer
 	
-	# Position bubble at gun's position
+	# Create and position the bubble
+	var bubble = bubble_scene.instantiate() as Node2D
+	player.get_parent().add_child(bubble)
 	bubble.global_position = gun_tip.global_position
 	
-	# Get shooting direction
-	var direction:Vector2 = (mouse_pos - player_pos).normalized()
-	
-	# Apply an impulse to move the bubble forward
+	# Get shooting direction and apply impulse
+	var direction: Vector2 = (mouse_pos - player_pos).normalized()
 	if bubble.has_method("set_impulse"):
-		bubble.set_impulse(direction*0.015)
+		bubble.set_impulse(direction * 0.015)
 	
-	# Play particle effect safely
+	# Play particle effect
 	if particle_fx:
-		particle_fx.restart()  # Restart effect
+		particle_fx.restart()
 	else:
 		print("Warning: Particle effect is not assigned!")
+
+# Timer callback function
+func _on_shoot_cooldown_timeout():
+	can_shoot = true  # Re-enable shooting
