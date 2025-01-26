@@ -22,7 +22,7 @@ var sfx = {
 	"bubbleFillUp": preload("res://audio/Balloon_bar fill up.wav"),
 	"bubbleBurst": preload("res://audio/Balloon_shoot _2.wav"),
 	"bubbleShoot": preload("res://audio/Balloon_shoot _1.wav"),
-	"bubbleEnter": preload("res://audio/Balloon enter.wav"),
+	"bubbleEnter": preload("res://audio/Balloon enter.mp3"),
 	"bubbleExit": preload("res://audio/Balloon enter.wav"),
 	"turretShoot": preload("res://audio/turretShoot.wav"),
 	"buttonSelect": preload("res://audio/Button select.wav"),
