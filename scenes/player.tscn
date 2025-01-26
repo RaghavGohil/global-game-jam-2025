@@ -20,6 +20,24 @@ var bubbles_inside = {}  # Dictionary to track multiple bubbles
 var bubble_last_position = Vector2.ZERO  # Store last bubble position
 var bubble_velocity = Vector2.ZERO  # Store calculated bubble velocity
 
+# Timer for footstep sound interval
+var footstep_timer = 0.0
+const FOOTSTEP_INTERVAL = 0.1  # Time interval in seconds between footsteps
+
+# Function to play random footstep sound
+func play_random_footstep():
+	# Pick a random footsteps sound from the sfx dictionary
+	var footsteps_sounds = [\"footsteps1\"]
+	var random_footstep = footsteps_sounds[randi() % footsteps_sounds.size()]
+	AudioManager.play_sfx(random_footstep)
+
+# Function to play random jump sound
+func play_random_jump():
+	# Pick a random jump sound from the sfx dictionary
+	var jump_sounds = [\"jump1\", \"jump2\"]
+	var random_jump = jump_sounds[randi() % jump_sounds.size()]
+	AudioManager.play_sfx(random_jump)
+
 func _ready():
 	gravity = org_gravity
 
@@ -64,11 +82,16 @@ func move_player(delta):
 		# Handle jump
 		if Input.is_action_just_pressed(\"jump\") and is_on_floor():
 			velocity.y = JUMP_VELOCITY
+			play_random_jump()  # Play random jump sound
 
 		# Handle left/right movement
 		var direction = Input.get_axis(\"move_left\", \"move_right\")
 		if direction:
 			velocity.x = direction * SPEED
+			footstep_timer -= delta  # Countdown timer for footstep
+			if footstep_timer <= 0:
+				play_random_footstep()  # Play random footstep sound
+				footstep_timer = FOOTSTEP_INTERVAL  # Reset timer
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
@@ -97,9 +120,11 @@ func _physics_process(delta):
 func _on_area_2d_area_entered(area: Area2D):
 	
 	if area.is_in_group('trap_one_hit'):
+		AudioManager.play_sfx('playerHurt')
 		Game.restart_lvl()
 	
 	if area.is_in_group('bubble'):
+		AudioManager.play_sfx('bubbleEnter')
 		inside_bubble = true
 		gravity = 0  # Disable gravity
 
@@ -114,6 +139,7 @@ func _on_area_2d_area_entered(area: Area2D):
 # Exiting the bubble when pressing Space
 func exit_bubble():
 	if inside_bubble and bubbles_inside.size() > 0:
+		#AudioManager.play_sfx('bubbleExit')
 		# Remove the current bubble from the list
 		var current_bubble = bubbles_inside.keys()[0]
 		bubbles_inside.erase(current_bubble)

@@ -46,6 +46,7 @@ func _process(delta):
 # Fires a bullet when timer goes off
 func _on_fire_timer_timeout():
 	if target and bullet_scene and fire_point:
+		AudioManager.play_sfx("turretShoot")
 		var bullet = bullet_scene.instantiate()
 		if not bullet:
 			push_error("Bullet scene could not be instantiated!")

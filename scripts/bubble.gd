@@ -34,6 +34,7 @@ func start_lifetime_timer():
 	timer.connect("timeout", Callable(timer, "queue_free"))
 
 func _explode():
+	AudioManager.play_sfx('bubbleBurst')
 	if explosion_particles:
 		var explosion = explosion_particles.instantiate()
 		get_parent().add_child(explosion)  # Add to scene

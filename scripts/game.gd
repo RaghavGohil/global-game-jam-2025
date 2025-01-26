@@ -19,12 +19,12 @@ var sfx = {
 	"jump1": preload("res://audio/Jump_1.wav"),
 	"jump2": preload("res://audio/Jump_2.wav"),
 	"levelComplete": preload("res://audio/Level complete.wav"),
-	"balloonFillUp": preload("res://audio/Balloon_bar fill up.wav"),
-	"balloonBurst": preload("res://audio/Balloon_burst .wav"),
-	"balloonShoot1": preload("res://audio/Balloon_shoot _1.wav"),
-	"balloonShoot2": preload("res://audio/Balloon_shoot _2.wav"),
-	"balloonEnter": preload("res://audio/Balloon enter.wav"),
-	"balloonExit": preload("res://audio/Balloon exit.wav"),
+	"bubbleFillUp": preload("res://audio/Balloon_bar fill up.wav"),
+	"bubbleBurst": preload("res://audio/Balloon_shoot _2.wav"),
+	"bubbleShoot": preload("res://audio/Balloon_shoot _1.wav"),
+	"bubbleEnter": preload("res://audio/Balloon enter.wav"),
+	"bubbleExit": preload("res://audio/Balloon enter.wav"),
+	"turretShoot": preload("res://audio/turretShoot.wav"),
 	"buttonSelect": preload("res://audio/Button select.wav"),
 	"buttonStart": preload("res://audio/Button start.wav"),
 	"cartoonScientistAngry1": preload("res://audio/Cartoon_Scientist_Angry_1.wav"),
@@ -32,7 +32,8 @@ var sfx = {
 	"cartoonScientistAngry3": preload("res://audio/Cartoon_Scientist_Angry_3.wav"),
 	"cartoonScientistScreaming": preload("res://audio/Cartoon_Scientist_Screaming.wav"),
 	"playerDeath": preload("res://audio/Player death.wav"),
-	"playerHurt": preload("res://audio/Player hurt.wav"),
+	"playerHurt": preload("res://audio/playerHurt.wav"),
+	"forceField": preload("res://audio/forceField.wav"),
 }
 
 func _ready():

@@ -47,6 +47,7 @@ func shoot_bubble():
 	if not bubble_scene:
 		print("Bubble scene not assigned!")
 		return
+	AudioManager.play_sfx('bubbleShoot')
 	
 	# Prevent further shooting
 	can_shoot = false

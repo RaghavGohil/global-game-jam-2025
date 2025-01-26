@@ -15,6 +15,9 @@ var sfx_library: Dictionary = {}
 # Tween to handle fade-in/out (using create_tween)
 var tween: Tween
 
+# The listener's position (usually the camera or player)
+var listener_position: Vector2 = Vector2.ZERO
+
 func _ready():
 	# Create a single AudioStreamPlayer for background music
 	bgm_player = AudioStreamPlayer.new()
@@ -78,6 +81,7 @@ func play_sfx(name: String):
 				player.play()
 				print("[AudioManager] Playing SFX:", name)
 				return
+		# If all players are busy, you can either log or handle this case
 		print("[AudioManager] No available SFX players!") 
 	else:
 		print("[AudioManager] SFX not found:", name)
