@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://0017r0pld3o0"
+path="res://.godot/imported/Button select.wav-99844f3f14ab219f5400813c1c478fbb.sample"
+
+[deps]
+
+source_file="res://audio/Button select.wav"
+dest_files=["res://.godot/imported/Button select.wav-99844f3f14ab219f5400813c1c478fbb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
