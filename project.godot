@@ -15,6 +15,11 @@ run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.3", "C#", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+AudioManager="*res://scripts/audio_manager.gd"
+Game="*res://scripts/game.gd"
+
 [display]
 
 window/size/viewport_width=640
