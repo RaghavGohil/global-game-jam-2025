@@ -12,8 +12,10 @@ const MAX_SFX_PLAYERS = 10  # Prevent too many SFX players
 var bgm_library: Dictionary = {}
 var sfx_library: Dictionary = {}
 
+# Tween to handle fade-in/out (using create_tween)
+var tween: Tween
+
 func _ready():
-	print('Init Audio Manager')
 	# Create a single AudioStreamPlayer for background music
 	bgm_player = AudioStreamPlayer.new()
 	bgm_player.bus = bgm_bus
@@ -29,45 +31,38 @@ func _ready():
 	
 	print("[AudioManager] Initialized")
 
+	# Connect the finished signal of bgm_player to restart the track
+	bgm_player.finished.connect(Callable(self, "_on_bgm_finished"))
+
 # Load sounds dynamically (Call once per scene/game)
 func load_audio(sfx_dict: Dictionary, bgm_dict: Dictionary):
 	sfx_library = sfx_dict
 	bgm_library = bgm_dict
 	print("[AudioManager] Audio Loaded | BGM:", bgm_library.keys(), " | SFX:", sfx_library.keys())
 
-# Play Background Music
-func play_bgm(name: String, loop: bool = true):
-	# Check if the BGM name exists in the library
+# Play Background Music and restart it when it ends
+func play_bgm(name: String):
 	if name in bgm_library:
 		if bgm_player != null:
-			# Ensure previous BGM stops before playing new one
+			# Stop previous BGM and reset time to 0
+			print("[AudioManager] Stopping previous BGM")
 			bgm_player.stop()
-
-			# Get the BGM stream from the library
-			var bgm_stream = bgm_library[name]
-
-			# Ensure the stream is valid before attempting to set loop or play
-			#if bgm_stream == null:
-				#print("[AudioManager] Error: BGM stream is null for:", name)
-				#return
-			#
-			## Set the loop property of the AudioStream (not the AudioStreamPlayer)
-			#bgm_stream.loop = loop
-
-			# Assign the stream to the player and play
-			bgm_player.stream = bgm_stream
-
-			# Check if the audio stream is loaded and ready to play
-			if bgm_player.stream != null:
-				bgm_player.play()
-				print("[AudioManager] Playing BGM:", name)
-			else:
-				print("[AudioManager] Error: Unable to assign BGM stream to player for:", name)
+			bgm_player.stream = bgm_library[name]
+			bgm_player.play()
+			bgm_player.seek(0)  # Reset time to 0 when starting the new track
+			print("[AudioManager] BGM started:", name)
 		else:
 			print("[AudioManager] Error: bgm_player not initialized")
 	else:
 		print("[AudioManager] BGM not found:", name)
-		
+
+# Handle BGM finishing and restart it
+func _on_bgm_finished():
+	print("[AudioManager] BGM finished, restarting track.")
+	bgm_player.seek(0)  # Restart the BGM from the beginning
+	bgm_player.play()   # Play it again
+	print("[AudioManager] BGM restarted.")
+
 # Stop BGM
 func stop_bgm():
 	bgm_player.stop()
