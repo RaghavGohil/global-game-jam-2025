@@ -8,9 +8,34 @@ var sfx_players: Array = []  # Pool of SFX players
 
 const MAX_SFX_PLAYERS = 10  # Prevent too many SFX players
 
-# Holds loaded sounds
-var bgm_library: Dictionary = {}
-var sfx_library: Dictionary = {}
+var bgm_library = {
+	"game_theme": preload("res://audio/Mixdown.wav"),
+}
+
+var sfx_library = {
+	"footsteps1": preload("res://audio/Footsteps_1.wav"),
+	"footsteps2": preload("res://audio/Footsteps_2.wav"),
+	"footsteps3": preload("res://audio/Footsteps_3.wav"),
+	"footsteps4": preload("res://audio/Footsteps_4.wav"),
+	"jump1": preload("res://audio/Jump_1.wav"),
+	"jump2": preload("res://audio/Jump_2.wav"),
+	"levelComplete": preload("res://audio/Level complete.wav"),
+	"bubbleFillUp": preload("res://audio/Balloon_bar fill up.wav"),
+	"bubbleBurst": preload("res://audio/Balloon_shoot _2.wav"),
+	"bubbleShoot": preload("res://audio/Balloon_shoot _1.wav"),
+	"bubbleEnter": preload("res://audio/Balloon enter.mp3"),
+	"bubbleExit": preload("res://audio/Balloon enter.wav"),
+	"turretShoot": preload("res://audio/turretShoot.wav"),
+	"buttonSelect": preload("res://audio/Button select.wav"),
+	"buttonStart": preload("res://audio/Button start.wav"),
+	"cartoonScientistAngry1": preload("res://audio/Cartoon_Scientist_Angry_1.wav"),
+	"cartoonScientistAngry2": preload("res://audio/Cartoon_Scientist_Angry_2.wav"),
+	"cartoonScientistAngry3": preload("res://audio/Cartoon_Scientist_Angry_3.wav"),
+	"cartoonScientistScreaming": preload("res://audio/Cartoon_Scientist_Screaming.wav"),
+	"playerDeath": preload("res://audio/Player death.wav"),
+	"playerHurt": preload("res://audio/playerHurt.wav"),
+	"forceField": preload("res://audio/forceField.wav"),
+}
 
 # Tween to handle fade-in/out (using create_tween)
 var tween: Tween
@@ -36,12 +61,6 @@ func _ready():
 
 	# Connect the finished signal of bgm_player to restart the track
 	bgm_player.finished.connect(Callable(self, "_on_bgm_finished"))
-
-# Load sounds dynamically (Call once per scene/game)
-func load_audio(sfx_dict: Dictionary, bgm_dict: Dictionary):
-	sfx_library = sfx_dict
-	bgm_library = bgm_dict
-	print("[AudioManager] Audio Loaded | BGM:", bgm_library.keys(), " | SFX:", sfx_library.keys())
 
 # Play Background Music and restart it when it ends
 func play_bgm(name: String):

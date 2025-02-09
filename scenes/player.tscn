@@ -288,7 +288,7 @@ randomness = 1.0
 emission_shape = 3
 emission_rect_extents = Vector2(80, 45)
 gravity = Vector2(0, 100)
-color = Color(0.0134, 0.01967, 0.02, 0.105882)
+color = Color(0.0384442, 0.0616316, 0.0970589, 0.105882)
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2(1, 3)
