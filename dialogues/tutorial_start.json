@@ -1,0 +1,27 @@
+[
+	{
+		"name": "Scientist",
+		"text": "Ah, you're awake! Can you hear me?",
+		"image": "res://sprites/character_images/scientist_1.png"
+	},
+	{
+		"name": "Player",
+		"text": "Yes... Where am I?",
+		"image": "res://sprites/character_images/player_1.png"
+	},
+	{
+		"name": "Scientist",
+		"text": "You're in the lab. I built you to walk, but you'll have to learn!",
+		"image": "res://sprites/character_images/scientist_1.png"
+	},
+	{
+		"name": "Player",
+		"text": "Walk? How do I do that?",
+		"image": "res://sprites/character_images/player_1.png"
+	},
+	{
+		"name": "Scientist",
+		"text": "Easy! Try moving around with the arrow keys.",
+		"image": "res://sprites/character_images/scientist_1.png"
+	}
+]
